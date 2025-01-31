@@ -24,7 +24,6 @@ public class EstabelecimentoRequest {
     private String uf;
 
     @NotNull(message = "O percentual de serviço é obrigatório.")
-    @DecimalMin(value = "0.0", inclusive = true, message = "O percentual de serviço deve ser no mínimo 0.")
     private BigDecimal percentualServico;
 
     private BigDecimal valorCouvert;
