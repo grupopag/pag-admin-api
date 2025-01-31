@@ -16,19 +16,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "estabelecimento", schema="pag_restaurante")
-@SequenceGenerator(name = "estabelecimento_estabelecimento_id_seq",sequenceName = "estabelecimento_id_seq")
+@SequenceGenerator(name = "estabelecimento_estabelecimento_id_seq",sequenceName = "estabelecimento_estabelecimento_id_seq")
 public class Estabelecimento {
 
 
     @Id
-    @GeneratedValue(generator = "estabelecimento_id_seq")
+    @GeneratedValue(generator = "estabelecimento_estabelecimento_id_seq")
     @Column(name = "estabelecimento_id")
     private Integer id;
     private String nome;
     private String cnpj;
     private String cpfResponsavel;
     private String cep;
-    private Integer enteId;
     private String uf;
     private BigDecimal percentualServico;
     private BigDecimal valorCouvert;

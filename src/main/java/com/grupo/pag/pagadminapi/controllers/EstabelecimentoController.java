@@ -16,19 +16,6 @@ public class EstabelecimentoController {
 
     private final EstabelecimentoService estabelecimentoService;
 
-    @GetMapping
-    public ResponseEntity<List<Estabelecimento>> findAll() {
-        return ResponseEntity.ok(estabelecimentoService.findAll());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Estabelecimento> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(estabelecimentoService.findById(id));
-    }
-    @GetMapping("logado")
-    public ResponseEntity<Estabelecimento> findEstabelecimentoLogado() {
-        return ResponseEntity.ok(estabelecimentoService.findByUsuarioLogado());
-    }
 
     @PostMapping
     public ResponseEntity<Estabelecimento> save(@RequestBody EstabelecimentoRequest request) {
@@ -36,17 +23,6 @@ public class EstabelecimentoController {
         return ResponseEntity.ok(savedEstabelecimento);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Estabelecimento> update(@PathVariable Long id, @RequestBody EstabelecimentoRequest request) {
-        Estabelecimento updatedEstabelecimento = estabelecimentoService.update(id, request);
-        return ResponseEntity.ok(updatedEstabelecimento);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        estabelecimentoService.delete(id);
-        return ResponseEntity.noContent().build();
-    }
 
 
 }

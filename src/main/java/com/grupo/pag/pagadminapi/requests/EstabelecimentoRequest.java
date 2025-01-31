@@ -15,15 +15,9 @@ public class EstabelecimentoRequest {
     @Size(min = 14, max = 14, message = "O CNPJ deve conter 14 caracteres.")
     private String cnpj;
 
-    @NotBlank(message = "O CPF do responsável é obrigatório.")
-    @Size(min = 11, max = 11, message = "O CPF deve conter 11 caracteres.")
-    private String cpfResponsavel;
-
     @NotBlank(message = "O CEP é obrigatório.")
     @Pattern(regexp = "\\d{5}-\\d{3}", message = "O CEP deve estar no formato 00000-000.")
     private String cep;
-
-    private Integer enteId;
 
     @NotBlank(message = "A UF é obrigatória.")
     @Size(min = 2, max = 2, message = "A UF deve conter 2 caracteres.")
@@ -48,5 +42,11 @@ public class EstabelecimentoRequest {
 
     @NotBlank(message = "O nome do responsável é obrigatório.")
     private String nomeResponsavel;
+
+    private String cpfResponsavel;
+
+    private String email;
+
+    private String senha;
 
 }
