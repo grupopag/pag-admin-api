@@ -1,18 +1,15 @@
 package com.grupo.pag.pagadminapi.services;
 
 import com.grupo.pag.pagadminapi.config.exceptionhandler.customexceptions.BusinessException;
-import com.grupo.pag.pagadminapi.config.exceptionhandler.customexceptions.EntidadeNaoEncontradaException;
-import com.grupo.pag.pagadminapi.database.entities.Estabelecimento;
-import com.grupo.pag.pagadminapi.database.entities.Usuario;
-import com.grupo.pag.pagadminapi.database.repository.EstabelecimentoRepository;
-import com.grupo.pag.pagadminapi.database.repository.UsuarioRepository;
+import com.grupo.pag.pagadminapi.database.entities.*;
+import com.grupo.pag.pagadminapi.database.repository.*;
 import com.grupo.pag.pagadminapi.requests.EstabelecimentoRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -20,30 +17,63 @@ public class EstabelecimentoService {
 
     private final EstabelecimentoRepository repository;
     private final UsuarioRepository usuarioRepository;
+    private final EmailService emailService;
+    private final TokenUsuarioRepository tokenUsuarioRepository;
+    private final GrupoRepository grupoRepository;
+    private final UsuarioGrupoRepository usuarioGrupoRepository;
+    private final UsuarioEstabelecimentoRepository usuarioEstabelecimentoRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @Transactional
     public Estabelecimento save(EstabelecimentoRequest request) {
 
-        if (usuarioRepository.findByEmail(request.getEmail() )!= null) {
+        if (usuarioRepository.findByEmail(request.getEmail()) != null) {
             throw new BusinessException("Já existe um usuário com esse email");
         }
 
         Estabelecimento estabelecimento = new Estabelecimento();
         convertRequestToEntity(request, estabelecimento);
-
+        Estabelecimento estabelecimentoSalvo = repository.save(estabelecimento);
 
 
         Usuario usuario = new Usuario();
         usuario.setEmail(request.getEmail());
         usuario.setNome(request.getNomeResponsavel());
         usuario.setLogin(request.getEmail());
-        usuario.setSenha(request.getSenha());
+        usuario.setSenha(passwordEncoder.encode(request.getSenha()));
         usuario.setAtivo(false);
 
+        usuario = usuarioRepository.save(usuario);
 
-        usuarioRepository.save(usuario);
+        Grupo grupo = grupoRepository.findById(1).get();
+        UsuarioGrupo usuarioGrupo = new UsuarioGrupo();
+        usuarioGrupo.setUsuario(usuario);
+        usuarioGrupo.setGrupo(grupo);
+        usuarioGrupoRepository.save(usuarioGrupo);
+
+        UsuarioEstabelecimento usuarioEstabelecimento = new UsuarioEstabelecimento();
+        usuarioEstabelecimento.setUsuario(usuario);
+        usuarioEstabelecimento.setEstabelecimento(estabelecimentoSalvo);
+
+        usuarioEstabelecimentoRepository.save(usuarioEstabelecimento);
+
+        String token = UUID.randomUUID().toString();
 
 
-        return repository.save(estabelecimento);
+        TokenUsuario tokenUsuario = new TokenUsuario();
+        tokenUsuario.setToken(token);
+        tokenUsuario.setUsuario(usuario);
+
+
+        tokenUsuarioRepository.save(tokenUsuario);
+
+
+        emailService.sendConfirmationEmail(request.getEmail(), request.getNomeResponsavel(),
+                token
+        );
+
+        return estabelecimentoSalvo;
+
     }
 
 
@@ -60,5 +90,6 @@ public class EstabelecimentoService {
         estabelecimento.setTelefone(request.getTelefone());
         estabelecimento.setEndereco(request.getEndereco());
         estabelecimento.setNomeResponsavel(request.getNomeResponsavel());
+        estabelecimento.setChavePix(request.getChavePix());
     }
 }

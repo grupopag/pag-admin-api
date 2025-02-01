@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("/estabelecimento")
@@ -21,8 +20,10 @@ public class EstabelecimentoController {
     public ResponseEntity<Estabelecimento> save(@RequestBody EstabelecimentoRequest request) {
         Estabelecimento savedEstabelecimento = estabelecimentoService.save(request);
         return ResponseEntity.ok(savedEstabelecimento);
+
     }
-
-
-
 }
+
+
+
+

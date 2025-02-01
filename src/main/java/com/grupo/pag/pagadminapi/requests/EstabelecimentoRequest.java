@@ -48,4 +48,5 @@ public class EstabelecimentoRequest {
 
     private String senha;
 
+    private String chavePix;
 }
