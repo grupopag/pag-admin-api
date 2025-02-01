@@ -23,6 +23,9 @@ public class EstabelecimentoService {
     private final UsuarioGrupoRepository usuarioGrupoRepository;
     private final UsuarioEstabelecimentoRepository usuarioEstabelecimentoRepository;
     private final PasswordEncoder passwordEncoder;
+    private final MesaService mesaService;
+    private final ProdutoService produtoService;
+    private final CategoriaService categoriaService;
 
     @Transactional
     public Estabelecimento save(EstabelecimentoRequest request) {
@@ -67,6 +70,9 @@ public class EstabelecimentoService {
 
         tokenUsuarioRepository.save(tokenUsuario);
 
+        mesaService.criarMesasParaEstabelecimento(estabelecimentoSalvo.getId(), 7);
+        categoriaService.criarCategoriasParaEstabelecimento(estabelecimentoSalvo.getId());
+        produtoService.criarProdutosParaEstabelecimento(estabelecimentoSalvo.getId());
 
         emailService.sendConfirmationEmail(request.getEmail(), request.getNomeResponsavel(),
                 token
