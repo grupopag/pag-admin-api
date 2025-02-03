@@ -36,12 +36,12 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t grupopag/pag-restaurante-api:latest .
-          docker tag grupopag/pag-restaurante-api:latest 730335665993.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/grupopag/pag-restaurante-api:latest
+          docker build -t grupopag/pag-admin-api:latest .
+          docker tag grupopag/pag-admin-api:latest 730335665993.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/grupopag/pag-admin-api:latest
 
       - name: Push Docker image to Amazon ECR
         run: |
-          docker push 730335665993.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/grupopag/pag-restaurante-api:latest
+          docker push 730335665993.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/grupopag/pag-admin-api:latest
 
       # Adiciona o passo para chamar o webhook ao final
       - name: Notify Webhook
