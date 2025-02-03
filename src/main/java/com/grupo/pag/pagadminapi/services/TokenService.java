@@ -13,16 +13,17 @@ public class TokenService {
 
     private final TokenUsuarioRepository tokenUsuarioRepository;
     private final UsuarioRepository usuarioRepository;
+
     public TokenUsuario findTokenByToken(String token) {
         TokenUsuario tokenUsuario = tokenUsuarioRepository.findByToken(token);
-        Usuario usuario = usuarioRepository.findById(tokenUsuario.getUsuario().getUsuarioId()).get();
-
-        usuario.setAtivo(true);
-        usuarioRepository.save(usuario);
 
         if (tokenUsuario != null) {
-          tokenUsuario.setUtilizado(true);
-          return tokenUsuarioRepository.save(tokenUsuario);
+            Usuario usuario = usuarioRepository.findById(tokenUsuario.getUsuario().getUsuarioId()).get();
+
+            usuario.setAtivo(true);
+            usuarioRepository.save(usuario);
+            tokenUsuario.setUtilizado(true);
+            return tokenUsuarioRepository.save(tokenUsuario);
         }
         return null;
     }
