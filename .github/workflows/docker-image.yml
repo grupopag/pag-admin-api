@@ -25,10 +25,10 @@ jobs:
         run: |
           aws ecr get-login-password --region ${{ secrets.AWS_REGION }} | docker login --username AWS --password-stdin 730335665993.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com
 
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'adopt'
 
       - name: Build with Maven
