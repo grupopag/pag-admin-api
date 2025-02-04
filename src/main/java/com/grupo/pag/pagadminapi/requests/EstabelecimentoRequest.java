@@ -12,15 +12,14 @@ public class EstabelecimentoRequest {
     private String nome;
 
     @NotBlank(message = "O CNPJ é obrigatório.")
-    @Size(min = 14, max = 14, message = "O CNPJ deve conter 14 caracteres.")
     private String cnpj;
 
     @NotBlank(message = "O CEP é obrigatório.")
-    @Pattern(regexp = "\\d{5}-\\d{3}", message = "O CEP deve estar no formato 00000-000.")
+    @Pattern(regexp = "\\d{5}\\d{3}|\\d{5}-\\d{3}", message = "O CEP está no formato incorreto.")
     private String cep;
 
     @NotBlank(message = "A UF é obrigatória.")
-    @Size(min = 2, max = 2, message = "A UF deve conter 2 caracteres.")
+    @Pattern(regexp = "^[A-Z]{2}$", message = "O estado deve ser uma sigla de 2 letras.")
     private String uf;
 
     @NotNull(message = "O percentual de serviço é obrigatório.")
@@ -44,9 +43,10 @@ public class EstabelecimentoRequest {
 
     private String cpfResponsavel;
 
+    @NotBlank(message = "O email é obrigatório.")
     private String email;
-
+    @NotBlank(message = "A senha é obrigatória.")
     private String senha;
-
+    @NotBlank(message = "A chave pix é obrigatória.")
     private String chavePix;
 }
