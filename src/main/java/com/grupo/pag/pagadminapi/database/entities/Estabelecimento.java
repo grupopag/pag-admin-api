@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "estabelecimento", schema="pag_restaurante")
-@SequenceGenerator(name = "estabelecimento_estabelecimento_id_seq",sequenceName = "estabelecimento_estabelecimento_id_seq", initialValue = 70, allocationSize = 1)
+@SequenceGenerator(name = "estabelecimento_estabelecimento_id_seq",sequenceName = "estabelecimento_estabelecimento_id_seq", initialValue = 1, allocationSize = 1)
 public class Estabelecimento {
 
 
